@@ -2,7 +2,7 @@ const express = require("express");
 
 const ctrl = require("../../controllers/users");
 
-const { auth } = require("../../middlewares");
+const { auth, upload } = require("../../middlewares");
 
 const { ctrlWrap } = require("../../helpers");
 
@@ -17,5 +17,12 @@ router.get("/current", auth, ctrlWrap(ctrl.getCurrent));
 router.get("/logout", auth, ctrlWrap(ctrl.logout));
 
 router.patch("/", auth, ctrlWrap(ctrl.updateSubscriptionUser));
+
+router.patch(
+  "/avatars",
+  auth,
+  upload.single("avatar"),
+  ctrlWrap(ctrl.setAvatar)
+);
 
 module.exports = router;
